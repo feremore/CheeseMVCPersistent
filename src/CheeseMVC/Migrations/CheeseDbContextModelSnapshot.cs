@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
+
 namespace CheeseMVC.Migrations
 {
     [DbContext(typeof(CheeseDbContext))]
