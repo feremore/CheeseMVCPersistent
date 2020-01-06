@@ -50,36 +50,49 @@ namespace CheeseMVC.Controllers
         [HttpGet]
         public IActionResult ViewMenu(int id)
         {
-            
-            Menu newMenu =
-                    context.Menus.Single(m => m.ID == id);
-            List<CheeseMenu> items = context
-            .CheeseMenus
-            .Include(item => item.Cheese)
-            .Where(cm => cm.MenuID == id)
-            .ToList();
-        
-            ViewMenuViewModel viewMenuViewModel = new ViewMenuViewModel
+            try
             {
-                Menu = newMenu,
-                Items = items
-            };
-            return View(viewMenuViewModel);
+                Menu newMenu =
+                        context.Menus.Single(m => m.ID == id);
+                List<CheeseMenu> items = context
+                .CheeseMenus
+                .Include(item => item.Cheese)
+                .Where(cm => cm.MenuID == id)
+                .ToList();
+
+                ViewMenuViewModel viewMenuViewModel = new ViewMenuViewModel
+                {
+                    Menu = newMenu,
+                    Items = items
+                };
+                return View(viewMenuViewModel);
+            }
+            catch (InvalidOperationException)
+            {
+                return Redirect("/Menu");
+            }
+            
+
         }
         
         public IActionResult AddItem(int id)
         {
-            
-            Menu newMenu =
-                    context.Menus.Single(m => m.ID == id);
-            AddMenuItemViewModel addMenuItemViewModel = new AddMenuItemViewModel(context.Cheeses.ToList())
-            {
-                menu = newMenu,
-                menuID = newMenu.ID
-               
+            try{
+                Menu newMenu =
+                        context.Menus.Single(m => m.ID == id);
+                AddMenuItemViewModel addMenuItemViewModel = new AddMenuItemViewModel(context.Cheeses.ToList())
+                {
+                    menu = newMenu,
+                    menuID = newMenu.ID
 
-            };
-            return View(addMenuItemViewModel);
+
+                };
+                return View(addMenuItemViewModel);
+            }
+            catch (InvalidOperationException) 
+            { return Redirect("/Menu"); }
+          
+            
         }
 
 
@@ -111,17 +124,9 @@ namespace CheeseMVC.Controllers
 
             }
 
-            Menu newMenu =
-                    context.Menus.Single(m => m.ID == addMenuItemViewModel.menuID);
-            AddMenuItemViewModel nVM = new AddMenuItemViewModel(context.Cheeses.ToList())
-            {
-                menu = newMenu,
-                menuID = newMenu.ID
+            
 
-
-            };
-
-            return View(nVM);
+            return Redirect("/Menu/AddItem/"+addMenuItemViewModel.menuID);
         }
 
     }

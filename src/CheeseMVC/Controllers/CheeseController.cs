@@ -57,8 +57,8 @@ namespace CheeseMVC.Controllers
 
                 return Redirect("/Cheese");
             }
-
-            return View(addCheeseViewModel);
+            AddCheeseViewModel aCVM = new AddCheeseViewModel(categories: context.Categories.ToList());
+            return View(aCVM);
         }
 
         public IActionResult Remove()
