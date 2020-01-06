@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+﻿using System.Collections.Generic;
 namespace CheeseMVC.Models
 {
     public class Cheese
@@ -10,6 +9,7 @@ namespace CheeseMVC.Models
         //[ForeignKey("CheeseCategory")]
         public int CategoryID { get; set; }
         public CheeseCategory Category { get; set; }
+        public IList<CheeseMenu> CheeseMenus { get; set; }
 
     }
 }
